@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #1D9E75;
+  --green-dim: rgba(29,158,117,0.15);
+  --green-glow: rgba(29,158,117,0.35);
+  --bg: #0E1210;
+  --surface: #161C19;
+  --surface2: #1C2420;
+  --border: rgba(255,255,255,0.08);
+  --muted: #7A8C82;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: #E8EDE9;
+  font-family: 'DM Mono', monospace;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 1px solid var(--green);
+  outline-offset: 2px;
+}
