@@ -1,15 +1,25 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-// Safe fallbacks so Next.js static build never crashes
-const SUPABASE_URL =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  'https://placeholder.supabase.co'
+let supabaseInstance: SupabaseClient | null = null
 
-const SUPABASE_ANON_KEY =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2MDAwMDAwMDAsImV4cCI6MjAwMDAwMDAwMH0.placeholder_key_for_build_time_only_replace_in_env'
+function getSupabase(): SupabaseClient | null {
+  if (typeof window === 'undefined') return null
+  if (!supabaseInstance) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !key) throw new Error('Missing Supabase credentials')
+    supabaseInstance = createClient(url, key)
+  }
+  return supabaseInstance
+}
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+export const supabase = new Proxy({} as SupabaseClient, {
+  get: (target: SupabaseClient, prop: string | symbol) => {
+    const client = getSupabase()
+    if (!client) return undefined
+    return (client as unknown as Record<string | symbol, unknown>)[prop]
+  },
+})
 
 // ─────────────────────────────────────────────
 // Types

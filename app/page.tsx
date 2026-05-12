@@ -55,7 +55,7 @@ export default function LandingPage() {
 
         <h1 className="text-5xl font-medium leading-tight mb-6 max-w-3xl mx-auto">
           The operating system<br />
-          <span style={{ color: '#1D9E75' }}>for your body's data</span>
+          <span style={{ color: '#1D9E75' }}>for your body&apos;s data</span>
         </h1>
 
         <p className="text-lg max-w-xl mx-auto mb-10" style={{ color: '#7A8C82', lineHeight: 1.7 }}>
